@@ -2,6 +2,8 @@ import express from 'express'
 import path from 'path'
 import favicon from 'serve-favicon'
 import dotenv from 'dotenv'
+import cors from 'cors'
+import router from './routes/cars.js'
 
 // import the router from your routes file
 
@@ -12,6 +14,7 @@ const PORT = process.env.PORT || 3000
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 
 if (process.env.NODE_ENV === 'development') {
@@ -30,6 +33,8 @@ if (process.env.NODE_ENV === 'production') {
         res.sendFile(path.resolve('public', 'index.html'))
     )
 }
+
+app.use('/api', router)
 
 app.listen(PORT, () => {
     console.log(`server listening on http://localhost:${PORT}`)
